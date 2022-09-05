@@ -1,3 +1,2 @@
-export * from './pages';
-export * from './products';
-export * from './colors';
+export * from "./pages";
+export * from "./nav";

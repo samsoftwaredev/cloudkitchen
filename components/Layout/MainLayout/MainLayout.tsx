@@ -1,20 +1,21 @@
-import { Meta, MainNavbar, Footer } from '@/components'
-import { ReactNode } from 'react'
+import { Meta, Navbar, Footer } from "@/components";
+import { NavType } from "interfaces";
+import { ReactNode } from "react";
 
 interface Props {
-    children?: ReactNode
-    type?: "main" | "store"
+  children?: ReactNode;
+  navType?: NavType;
 }
 
-const MainLayout = ({children, type}: Props) => {
-    return (
-        <div>
-            <Meta/>
-            <MainNavbar type={type} />
-            {children}
-            <Footer/>
-        </div>
-    )
-}
+const MainLayout = ({ children, navType }: Props) => {
+  return (
+    <div>
+      <Meta />
+      <Navbar type={navType} />
+      {children}
+      <Footer />
+    </div>
+  );
+};
 
-export default MainLayout
+export default MainLayout;

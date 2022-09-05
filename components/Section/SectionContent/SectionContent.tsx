@@ -1,16 +1,13 @@
-import { ReactNode } from 'react'
-import styles from './sectionContent.module.scss'
+import { ReactNode } from "react";
+import styles from "./sectionContent.module.scss";
 
 interface Props {
-    children: ReactNode
+  children: ReactNode;
+  className: String;
 }
 
-const SectionContent = ({children}: Props) => {
-    return (
-        <div className={styles.container}>
-            {children}
-        </div>
-    )
-}
+const SectionContent = ({ className, children }: Props) => {
+  return <div className={className}>{children}</div>;
+};
 
-export default SectionContent
+export default SectionContent;

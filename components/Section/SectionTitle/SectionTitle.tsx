@@ -1,17 +1,15 @@
-import { COLORS } from '@/constants'
-import { Heading } from '@chakra-ui/react'
-import styles from './sectionTitle.module.scss'
+import styles from "./sectionTitle.module.scss";
 
 interface Props {
-    title: string
+  title: string;
 }
 
-const SectionTitle = ({title}: Props) => {
-    return (
-        <div className={styles.container}>
-            <Heading as='h5' size='xl' noOfLines={1} textColor={COLORS.white}>{title}</Heading>
-        </div>
-    )
-}
+const SectionTitle = ({ title }: Props) => {
+  return (
+    <div className={styles.container}>
+      <h5>{title}</h5>
+    </div>
+  );
+};
 
-export default SectionTitle
+export default SectionTitle;

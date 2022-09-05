@@ -1,0 +1,43 @@
+.container {
+  height: 100%;
+  width: 100%;
+}
+
+.information {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.name {
+  padding: 0;
+  margin-top: 15px 0;
+  font-size: 2em;
+}
+
+.price {
+  margin: 40px 0;
+  text-align: center;
+  font-size: 3em;
+  font-weight: 700;
+  color: $warning;
+}
+
+.status {
+  background-color: $light;
+  text-align: center;
+  font-size: 2em;
+  font-weight: 700;
+  border-radius: 5px;
+  padding: 20px 0;
+}
+
+.time {
+}
+
+.address {
+}
+
+.item {
+}

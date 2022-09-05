@@ -1,4 +1,3 @@
-import { List, ListIcon, ListItem } from "@chakra-ui/react";
 import styles from "./sectionMap.module.scss";
 
 interface Props {
@@ -11,14 +10,11 @@ interface Props {
 const SectionMap = ({ sections }: Props) => {
   return (
     <div className={styles.container}>
-      <List spacing={3}>
+      <ul>
         {sections.map(({ label, value }) => (
-          <ListItem key={value}>
-            <ListIcon color="green.500" />
-            {label}
-          </ListItem>
+          <li key={value}>{label}</li>
         ))}
-      </List>
+      </ul>
     </div>
   );
 };

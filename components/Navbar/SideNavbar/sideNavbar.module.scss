@@ -1,0 +1,32 @@
+.container {
+  z-index: 1000;
+  height: 100%;
+  width: 100%;
+  background-color: $warning;
+}
+
+.linkContainer {
+  color: $light;
+}
+
+.items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
+  flex-direction: row;
+  margin: 0;
+  padding: 20px 0px;
+}
+
+.itemLink {
+  font-weight: 700;
+}
+
+.link {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-weight: 900;
+}
