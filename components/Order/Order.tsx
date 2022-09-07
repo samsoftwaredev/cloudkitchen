@@ -1,59 +1,31 @@
-import { OrderTrackerTable, SearchSection, Stats } from "@/components";
-import { useEffect, useState } from "react";
-import { addComma, centsToUSD } from "utils";
+import { useState } from "react";
+import { useInView } from "react-intersection-observer";
+import { OrderTrackerTable, Stats } from "@/components";
 import { OrderEventType, OrderType } from "@/interfaces/*";
+import { addComma, centsToUSD } from "utils";
 import styles from "./order.module.scss";
+import { useEffect } from "react";
 
 interface Props {
   orders: OrderType[] | [];
 }
 
+const pagination = {
+  incrementBy: 100,
+  end: 100,
+  start: 0,
+};
+
 const Order = ({ orders }: Props) => {
-  const [data, setData] = useState(orders);
-  // const data = useMemo(
-  //   () => orders
-  //   [orders]
-  // );
-
-  const updateTableFields = (query: string) => {
-    let newData = [];
-    const queryLC = query.toLowerCase();
-    const noMatch = [
-      {
-        customer: "No Match",
-        destination: "No Match",
-        event_name: "No Match",
-        id: "No Match",
-        item: "No Match",
-        price: 0,
-        sent_at_second: 0,
-      },
-    ];
-
-    const ordersFound = orders.filter((order) => {
-      if (order.id.toLowerCase().includes(queryLC)) return order;
-      if (order.customer.toLowerCase().includes(queryLC)) return order;
-      if (order.destination.toLowerCase().includes(queryLC)) return order;
-      if (order.event_name.toLowerCase().includes(queryLC)) return order;
-      if (order.item.toLowerCase().includes(queryLC)) return order;
-      if (order.sent_at_second.toString().includes(queryLC)) return order;
-      if (
-        order.price.toString().includes(queryLC) ||
-        centsToUSD(order.price).toString().includes(queryLC)
-      )
-        return order;
-    });
-
-    // show "NoMatch" content if no order were found
-    if (ordersFound.length === 0) newData = noMatch;
-    // show list of orders as user types
-    else newData = query.length === 0 ? orders : ordersFound;
-
-    setData(newData);
-  };
+  const [startPosition, setStartPosition] = useState(pagination.start);
+  const [endPosition, setEndPosition] = useState(pagination.end);
+  const [refTop, inViewTop] = useInView({ threshold: 0 });
+  const [refBottom, inViewBottom] = useInView({ threshold: 0 });
 
   const findOrders = (eventType: OrderEventType) =>
-    addComma(data.filter(({ event_name }) => event_name === eventType).length);
+    addComma(
+      orders.filter(({ event_name }) => event_name === eventType).length
+    );
 
   const sumPrice = (data: OrderType[]) => {
     const startingCount = 0;
@@ -62,28 +34,87 @@ const Order = ({ orders }: Props) => {
     return centsToUSD(total);
   };
 
+  const handleLoadMore = () => {
+    let newStart = 0;
+    let newEnd = endPosition + pagination.incrementBy;
+    const bottomGap = 500;
+    const numOfOrders = 300;
+    const hasLongList = endPosition >= numOfOrders;
+
+    if (hasLongList) {
+      newStart = endPosition - pagination.incrementBy;
+      newEnd = endPosition + pagination.incrementBy;
+    }
+    if (newEnd >= orders.length) {
+      newEnd = orders.length;
+    } else {
+      // scroll up
+      window.scroll({
+        top: window.scrollY - bottomGap,
+        behavior: "smooth",
+      });
+    }
+    setStartPosition(newStart);
+    setEndPosition(newEnd);
+  };
+
+  const handleLoadPrev = () => {
+    const topGap = 500;
+    let loadPrevOrders = startPosition - pagination.incrementBy;
+    let newEnd = startPosition;
+
+    if (loadPrevOrders <= pagination.start) {
+      loadPrevOrders = pagination.start;
+      newEnd = pagination.end;
+    } else {
+      window.scroll({
+        top: topGap,
+        behavior: "smooth",
+      });
+    }
+
+    setStartPosition(loadPrevOrders);
+    setEndPosition(newEnd);
+  };
+
   useEffect(() => {
-    setData(orders);
-  }, [orders]);
+    const finishLoading = orders.length >= pagination.end;
+    const positionAtEnd = endPosition >= orders.length;
+
+    if (inViewBottom && finishLoading && !positionAtEnd) handleLoadMore();
+  }, [inViewBottom]);
+
+  useEffect(() => {
+    const finishLoading = orders.length >= pagination.end;
+    const positionIsAtStart = startPosition <= pagination.start;
+
+    if (inViewTop && finishLoading && !positionIsAtStart) handleLoadPrev();
+  }, [inViewTop]);
 
   return (
     <div className="contentContainer">
       <div className={styles.statsContainer}>
-        <Stats label={addComma(data.length)} description="Orders" />
-        <Stats label={sumPrice(data)} description="Revenue" />
+        <Stats label={addComma(orders.length)} description="Orders" />
+        <Stats label={sumPrice(orders)} description="Revenue" />
       </div>
       <div className={styles.statsContainer}>
-        <Stats label={findOrders("COOKED")} description="Cooked" />
         <Stats label={findOrders("CREATED")} description="Created" />
-        <Stats label={findOrders("CANCELLED")} description="Cancelled" />
-        <Stats label={findOrders("DELIVERED")} description="Delivered" />
+        <Stats label={findOrders("COOKED")} description="Cooked" />
         <Stats
           label={findOrders("DRIVER_RECEIVED")}
           description="Driver Received"
         />
+        <Stats label={findOrders("DELIVERED")} description="Delivered" />
+        <Stats label={findOrders("CANCELLED")} description="Cancelled" />
       </div>
-      <SearchSection onChange={updateTableFields} />
-      <OrderTrackerTable data={data} />
+      <div className={styles.topOfTableContainer}>
+        <div className={styles.topOfTable} ref={refTop}>
+          Top div{" "}
+        </div>
+        <OrderTrackerTable data={orders.slice(startPosition, endPosition)} />
+      </div>
+      <div ref={refBottom} />
+      <button onClick={handleLoadMore}>Load More</button>
     </div>
   );
 };

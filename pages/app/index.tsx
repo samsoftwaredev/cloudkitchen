@@ -7,6 +7,45 @@ import { OrderType } from "@/interfaces/*";
 const App: NextPage = () => {
   const [data, setData]: [OrderType | [], Function] = useState([]);
 
+  // const updateTableFields = (query: string) => {
+  //   let newData = [];
+  //   const queryLC = query.toLowerCase();
+  //   const noMatch = [
+  //     {
+  //       customer: "No Match",
+  //       destination: "No Match",
+  //       event_name: "No Match",
+  //       id: "No Match",
+  //       item: "No Match",
+  //       price: 0,
+  //       sent_at_second: 0,
+  //     },
+  //   ];
+
+  //   const ordersFound = orders.filter((order) => {
+  //     if (order.id.toLowerCase().includes(queryLC)) return order;
+  //     if (order.customer.toLowerCase().includes(queryLC)) return order;
+  //     if (order.destination.toLowerCase().includes(queryLC)) return order;
+  //     if (order.event_name.toLowerCase().includes(queryLC)) return order;
+  //     if (order.item.toLowerCase().includes(queryLC)) return order;
+  //     if (order.sent_at_second.toString().includes(queryLC)) return order;
+  //     if (
+  //       order.price.toString().includes(queryLC) ||
+  //       centsToUSD(order.price).toString().includes(queryLC)
+  //     )
+  //       return order;
+  //   });
+
+  //   // show "NoMatch" content if no order were found
+  //   if (ordersFound.length === 0) newData = noMatch;
+  //   // show list of orders as user types
+  //   else newData = query.length === 0 ? orders : ordersFound;
+
+  //   setStartPosition(tableDetails.startingPosition);
+  //   setEndPosition(tableDetails.endPosition);
+  //   setData(newData);
+  // };
+
   useEffect(() => {
     // TODO: URL env file
     const newSocket = io("http://localhost:4000");
@@ -18,7 +57,7 @@ const App: NextPage = () => {
       timer = setTimeout((_) => {
         timer = null;
         execute = true;
-      }, 5000);
+      }, 2000);
     };
 
     const setNewData = (newData: OrderType[]) => {
@@ -28,11 +67,13 @@ const App: NextPage = () => {
           groupById[d.id] = d;
         });
         const updatedData = Object.values(groupById);
-        return prevData.concat(updatedData);
+        return prevData
+          .concat(updatedData)
+          .map((d, index) => ({ index: index + 1, ...d }));
       });
     };
 
-    const debounceData = (newData: OrderType[]) => {
+    const debounce = (newData: OrderType[]) => {
       let newD = memory.concat(newData);
       if (execute === true) {
         setNewData(newD);
@@ -44,7 +85,7 @@ const App: NextPage = () => {
     };
 
     startTimer();
-    newSocket.on("order_event", debounceData);
+    newSocket.on("order_event", debounce);
 
     return () => {
       newSocket.close();
@@ -53,6 +94,7 @@ const App: NextPage = () => {
 
   return (
     <AppLayout>
+      {/* <SearchSection onChange={updateTableFields} /> */}
       <Order orders={data} />
     </AppLayout>
   );

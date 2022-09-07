@@ -8,6 +8,7 @@ export type OrderEventType =
   | "CANCELLED";
 
 export type OrderType = {
+  index?: number;
   customer: string;
   destination: string;
   event_name: string;

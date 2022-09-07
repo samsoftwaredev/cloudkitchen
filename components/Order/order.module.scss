@@ -6,3 +6,13 @@
   justify-content: center;
   gap: 5em;
 }
+
+.topOfTableContainer {
+  position: relative;
+}
+
+.topOfTable {
+  background-color: red;
+  position: absolute;
+  top: 60px;
+}

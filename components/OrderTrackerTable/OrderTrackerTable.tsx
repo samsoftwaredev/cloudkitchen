@@ -14,6 +14,8 @@ const OrderTrackerTable = ({ data = [] }: Props) => {
   const [drawerData, setDrawerData]: [OrderType | null, Function] =
     useState(null);
 
+  useMemo(() => data, [data]);
+
   const tableProps = {
     getTableProps: { className: styles.table },
     getTableBodyProps: { className: styles.tableBody },
@@ -36,6 +38,10 @@ const OrderTrackerTable = ({ data = [] }: Props) => {
 
   const columns = useMemo(
     () => [
+      {
+        Header: "#",
+        accessor: "key",
+      },
       {
         Header: "ID",
         accessor: "id",
@@ -73,6 +79,7 @@ const OrderTrackerTable = ({ data = [] }: Props) => {
 
   const formatData = (data: OrderType[]) =>
     data.map((d) => ({
+      key: d.index,
       id: d.id,
       customer: d.customer,
       destination: d.destination,

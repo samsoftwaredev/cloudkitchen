@@ -13,21 +13,12 @@ import { PAGES } from "@/constants";
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const secondaryButton = {
-    width: 300,
-    variant: "outline",
-    colorScheme: "whiteAlpha",
-    borderRadius: 50,
-    size: "lg",
-  };
 
   const onSignUpClick = () => router.push(PAGES.signUp.link);
 
   const CTAWelcome = (
     <CTA>
-      <button onClick={onSignUpClick} {...secondaryButton}>
-        Sign Up
-      </button>
+      <button onClick={onSignUpClick}>Sign Up</button>
     </CTA>
   );
 
