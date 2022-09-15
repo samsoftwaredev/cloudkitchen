@@ -37,3 +37,25 @@ input[type=text].ckField {
 input[type=text]:focus.ckField {
   width: 100%;
 }
+
+.btn {
+  border-radius: 30px;
+  border: none;
+  padding: 10px 20px;
+  transition: 0.2s;
+}
+
+.btn:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.cta {
+  font-size: 2em;
+  width: 300px;
+  background-color: #e16847;
+  color: white;
+}
+
+.cta:hover {
+  background-color: #a1442a;
+}

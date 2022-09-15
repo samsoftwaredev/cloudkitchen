@@ -7,6 +7,21 @@ export type OrderEventType =
   | "DELIVERED"
   | "CANCELLED";
 
+export type scrollState = "top" | "middle" | "bottom";
+
+export type scrollDirection = "up" | "down";
+
+export type ScrollPosition = { state: scrollState; direction: scrollDirection };
+
+export type Pagination = {
+  incrementBy: number;
+  startingPosition: number;
+  endingPosition: number;
+  minGap: number;
+  maxGap: number;
+  cellHeight: number;
+};
+
 export type OrderType = {
   index?: number;
   customer: string;
@@ -16,6 +31,7 @@ export type OrderType = {
   item: string;
   price: number;
   sent_at_second: number;
+  orderHistory?: Array<OrderType>;
 };
 
 export type TableHeaderType = {

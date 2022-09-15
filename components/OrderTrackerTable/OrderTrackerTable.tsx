@@ -24,28 +24,24 @@ const OrderTrackerTable = ({ data = [] }: Props) => {
       getRowProps: {
         className: styles.row,
         onClick: (rowData: OrderType) => {
-          console.log("clicked");
-          const order = data.find((d) => d.id === rowData.id);
           setDrawerData(null);
-
-          setTimeout(() => {
+          let time = 0;
+          time = window.setTimeout(() => {
+            const order = data.find((d) => d.id === rowData.id);
             setDrawerData(order);
-          }, 100);
+            clearTimeout(time);
+          }, 200);
         },
       },
       getCellProps: {
         className: styles.cell,
       },
     }),
-    []
+    [data]
   );
 
   const columns = useMemo(
     () => [
-      {
-        Header: "#",
-        accessor: "key",
-      },
       {
         Header: "ID",
         accessor: "id",
@@ -75,7 +71,6 @@ const OrderTrackerTable = ({ data = [] }: Props) => {
 
   const formatData = useMemo(() => {
     return data.map((d) => ({
-      key: d.index,
       id: d.id,
       status: d.event_name,
       item: d.item,
@@ -84,9 +79,11 @@ const OrderTrackerTable = ({ data = [] }: Props) => {
     }));
   }, [data]);
 
+  const onDrawerClose = () => setDrawerData(null);
+
   return (
     <>
-      <Drawer isOpen={!!drawerData}>
+      <Drawer isOpen={!!drawerData} onClose={onDrawerClose}>
         <OrderContent data={drawerData} />
       </Drawer>
       <Table data={formatData} columns={columns} setProps={tableProps} />

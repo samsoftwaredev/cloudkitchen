@@ -2,6 +2,7 @@ import styles from "./hero.module.scss";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import { useScroll } from "@/hooks";
+import { css } from "utils";
 
 interface Props {
   title: string;
@@ -61,12 +62,10 @@ const Hero = ({
       </div>
       <div
         ref={containerElement}
-        className={[styles.backgroundText, styles.text, animationClass].join(
-          " "
-        )}
+        className={css([styles.backgroundText, styles.text, animationClass])}
       >
-        <h1>{title}</h1>
-        <h2>{subTitle}</h2>
+        <h1 className={styles.title}>{title}</h1>
+        <h2 className={styles.subTitle}>{subTitle}</h2>
       </div>
       <div className={styles.componentContainer}>{component}</div>
     </div>

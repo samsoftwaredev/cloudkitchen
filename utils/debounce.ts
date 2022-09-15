@@ -1,8 +1,8 @@
 function debounce(func: Function, timeout: number = 300) {
-  let timer;
-  return (...args) => {
+  let timer: number;
+  return (...args: any) => {
     clearTimeout(timer);
-    timer = setTimeout(() => {
+    timer = window.setTimeout(() => {
       func.apply(this, args);
     }, timeout);
   };

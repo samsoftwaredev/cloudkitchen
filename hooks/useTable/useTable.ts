@@ -1,6 +1,5 @@
-import { css } from "utils";
 import { TableProps } from "interfaces";
-import { clickable } from "utils";
+import { css, generateUID, clickable } from "utils";
 
 const useTable = ({ columns, data, setProps }: TableProps) => {
   const getTableProps = () => ({ ...setProps?.getTableProps });
@@ -13,12 +12,12 @@ const useTable = ({ columns, data, setProps }: TableProps) => {
 
   const headerGroups = [
     {
-      id: "col.key",
+      id: generateUID(),
       getHeaderGroupProps: () => ({
         ...setProps?.getHeaderGroupProps,
       }),
       headers: columns.map((c, index) => ({
-        id: index,
+        id: generateUID() + index,
         getHeaderProps: () => ({
           ...setProps?.getHeaderProps,
         }),
@@ -28,14 +27,14 @@ const useTable = ({ columns, data, setProps }: TableProps) => {
   ];
 
   const rows = data.map((row, rowIndex) => ({
-    id: rowIndex,
+    id: generateUID() + rowIndex,
     getRowProps: () => ({
       ...setProps?.getRowProps,
       onClick: () => clickable(setProps?.getRowProps, row),
     }),
     cells: Object.entries(row).map(([key, value], cellIndex) => {
       return {
-        id: key,
+        id: generateUID() + cellIndex,
         render: (type: string) => value,
         getCellContentProps: () => ({
           className: css([
@@ -43,6 +42,7 @@ const useTable = ({ columns, data, setProps }: TableProps) => {
           ]),
         }),
         getCellProps: () => ({
+          id: generateUID(),
           ...setProps?.getCellProps,
           className: css([setProps?.getCellProps?.className]),
           onClick: () =>

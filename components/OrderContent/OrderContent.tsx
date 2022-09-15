@@ -1,16 +1,7 @@
-import { centsToUSD, css } from "utils";
+import { memo } from "react";
+import { OrderType } from "@/interfaces";
+import { centsToUSD, css, getTimeDifference } from "utils";
 import styles from "./orderContent.module.scss";
-
-interface Props {
-  data?: {
-    destination: string;
-    time: number;
-    customer: string;
-    item: string;
-    price: number;
-    event_name: string;
-  } | null;
-}
 
 const getAddress = (location: string = "") => {
   let address = location.split(",")[0];
@@ -24,7 +15,7 @@ const getAddress = (location: string = "") => {
   return encodeURI(address);
 };
 
-const OrderContent = ({ data }: Props) => {
+const OrderContent = ({ data }: { data: OrderType | null }) => {
   if (!data) return null;
 
   const location = getAddress(data.destination);
@@ -32,8 +23,7 @@ const OrderContent = ({ data }: Props) => {
   return (
     <div className={styles.container}>
       <iframe
-        width="600"
-        height="500"
+        className={styles.iframe}
         id="gmap_canvas"
         src={`https://maps.google.com/maps?q=${location}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
         frameBorder="0"
@@ -42,7 +32,9 @@ const OrderContent = ({ data }: Props) => {
         marginWidth={0}
       />
       <div className={styles.information}>
-        <div className={css([styles.time, "text-muted"])}>{data.time}</div>
+        <div className={css([styles.time, "text-muted"])}>
+          {getTimeDifference(data.sent_at_second)}
+        </div>
         <div className={css([styles.address, "text-muted"])}>
           {data.destination}
         </div>
@@ -57,9 +49,23 @@ const OrderContent = ({ data }: Props) => {
         </div>
         <div className={styles.price}>{centsToUSD(data.price)}</div>
         <div className={styles.status}>{data.event_name}</div>
+        {data.orderHistory?.length! > 0 && (
+          <div>
+            <h4 className="text-muted">History:</h4>
+            <ul>
+              {data.orderHistory!.map((d) => (
+                <li key={d.id}>
+                  <div className={styles.item}>
+                    {getTimeDifference(d.sent_at_second)} | {d.event_name}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default OrderContent;
+export default memo(OrderContent);
