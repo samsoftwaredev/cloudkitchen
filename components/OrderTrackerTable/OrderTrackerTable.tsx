@@ -1,7 +1,7 @@
 import { Table, Drawer, OrderContent } from "@/components";
 import { OrderType } from "@/interfaces";
 import { memo, useMemo, useState } from "react";
-import { centsToUSD, getTimeDifference } from "utils";
+import { centsToUSD, getOrderStatus, getTimeDifference } from "utils";
 import styles from "./orderTrackerTable.module.scss";
 
 interface Props {
@@ -72,7 +72,7 @@ const OrderTrackerTable = ({ data = [] }: Props) => {
   const formatData = useMemo(() => {
     return data.map((d) => ({
       id: d.id,
-      status: d.event_name,
+      status: getOrderStatus(d.event_name),
       item: d.item,
       price: centsToUSD(d.price),
       time: getTimeDifference(d.sent_at_second),

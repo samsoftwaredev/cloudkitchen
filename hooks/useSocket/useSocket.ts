@@ -22,10 +22,12 @@ const useSocket = (debounceWaitSec = 5000, url = BACKEND_URL) => {
 
     const setNewData = (newData: OrderType[]) => {
       let groupById: { [key: string]: OrderType } = {};
+
       setData((prevData: OrderType[]) => {
         prevData.forEach((d) => {
           groupById[d.id] = d;
         });
+
         newData.forEach((d) => {
           const oldHistory = groupById[d.id]?.orderHistory || [];
           if (groupById[d.id] !== undefined) {
@@ -34,10 +36,13 @@ const useSocket = (debounceWaitSec = 5000, url = BACKEND_URL) => {
             groupById[d.id] = { ...d, orderHistory: oldHistory };
           }
         });
-        return Object.values(groupById).map((d, index) => ({
-          index: index + 1,
-          ...d,
-        }));
+
+        const arr = Object.values(groupById);
+
+        const sorted = (a: OrderType, b: OrderType) =>
+          a.sent_at_second - b.sent_at_second;
+
+        return arr.sort(sorted);
       });
     };
 

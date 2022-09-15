@@ -26,7 +26,7 @@ export type OrderType = {
   index?: number;
   customer: string;
   destination: string;
-  event_name: string;
+  event_name: OrderEventType;
   id: string;
   item: string;
   price: number;

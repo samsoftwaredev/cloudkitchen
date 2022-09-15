@@ -27,6 +27,7 @@ const Navbar = ({ type = NAV_TYPE.MAIN }: Props) => {
 
   if (data.showTopBar) return <MainNavbar navLinks={data.navLinks} />;
   if (data.showSidebar) return <SideNavbar navLinks={data.navLinks} />;
+  return null;
 };
 
 export default Navbar;

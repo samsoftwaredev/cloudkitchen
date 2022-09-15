@@ -1,13 +1,14 @@
 import type { NextPage } from "next";
-import { AppLayout, Order } from "@/components";
-import { OrderType, ScrollPosition } from "@/interfaces";
+import { AppLayout, Order, Stats } from "@/components";
+import { OrderEventType, OrderType, ScrollPosition } from "@/interfaces";
 import { useRef } from "react";
 import { useScrollPosition, useSocket, usePagination } from "@/hooks";
+import { addComma } from "utils";
 
 let renders = 0;
 const App: NextPage = () => {
   console.log("************** render app **************", ++renders);
-  const data: OrderType[] = useSocket();
+  const data: OrderType[] = useSocket(3000);
   const scrollPosition: ScrollPosition = useScrollPosition();
   const ordersContainer = useRef();
   const viewportData: OrderType[] = usePagination({
@@ -55,8 +56,25 @@ const App: NextPage = () => {
   //   setData(newData);
   // };
 
+  const findOrders = (eventType: OrderEventType) =>
+    addComma(data.filter(({ event_name }) => event_name === eventType).length);
+
+  const stats = (
+    <>
+      <Stats label={addComma(data.length)} description="Orders" />
+      <Stats label={findOrders("CREATED")} description="Created" />
+      <Stats label={findOrders("COOKED")} description="Cooked" />
+      <Stats
+        label={findOrders("DRIVER_RECEIVED")}
+        description="Driver Received"
+      />
+      <Stats label={findOrders("DELIVERED")} description="Delivered" />
+      <Stats label={findOrders("CANCELLED")} description="Cancelled" />
+    </>
+  );
+
   return (
-    <AppLayout>
+    <AppLayout navContent={stats}>
       {/* <SearchSection onChange={updateTableFields} /> */}
       <Order forwardedRef={ordersContainer} orders={viewportData} />
     </AppLayout>

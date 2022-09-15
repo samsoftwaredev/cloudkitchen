@@ -5,13 +5,15 @@ import styles from "./appLayout.module.scss";
 
 interface Props {
   children: ReactNode;
+  navContent: ReactNode;
 }
 
-const AppLayout = ({ children }: Props) => {
+const AppLayout = ({ children, navContent }: Props) => {
   return (
     <div className={styles.container}>
       <div className={styles.sidebar}>
         <Navbar type={NAV_TYPE.APP} />
+        <div>{navContent}</div>
       </div>
       <div className={styles.content}>{children}</div>
     </div>
