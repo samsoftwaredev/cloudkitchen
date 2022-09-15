@@ -1,1 +1,1 @@
-export {default} from "./useScroll"
+export { default } from "./useScroll";

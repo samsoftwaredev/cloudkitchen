@@ -37,7 +37,3 @@ input[type=text].ckField {
 input[type=text]:focus.ckField {
   width: 100%;
 }
-
-.contentContainer{
-  margin: 50px  18px;
-}

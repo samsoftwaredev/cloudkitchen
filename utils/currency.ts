@@ -1,10 +1,9 @@
-export const currencyUSDCentsFormatter = (cents: number) =>
-  (cents / 100).toFixed(2);
+export const currencyUSDCentsFormatter = (cents: number): number => cents / 100;
 
-export const addComma = (num: number) =>
+export const addComma = (num: number): string =>
   num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-export const USDFormatter = (dollar: number) => `$${addComma(dollar)}`;
+export const USDFormatter = (dollar: number): string => `$${addComma(dollar)}`;
 
-export const centsToUSD = (cents: number) =>
+export const centsToUSD = (cents: number): string =>
   USDFormatter(currencyUSDCentsFormatter(cents));

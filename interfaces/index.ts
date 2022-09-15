@@ -29,12 +29,13 @@ export interface TableProps {
   columns: TableHeaderType[];
   data: { [key: string]: string | number | null | undefined }[];
   setProps?: {
-    getTableProps: any;
-    getTableBodyProps: any;
-    getHeaderGroupProps: any;
-    getHeaderProps: any;
-    getRowProps: any;
-    getCellProps: any;
+    getTableProps?: any;
+    getTableBodyProps?: any;
+    getHeaderGroupProps?: any;
+    getHeaderProps?: any;
+    getRowProps?: any;
+    getCellProps?: any;
+    getTableHeadProps?: any;
   };
 }
 

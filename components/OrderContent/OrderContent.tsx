@@ -1,4 +1,4 @@
-import { css } from "utils";
+import { centsToUSD, css } from "utils";
 import styles from "./orderContent.module.scss";
 
 interface Props {
@@ -7,8 +7,8 @@ interface Props {
     time: number;
     customer: string;
     item: string;
-    price: string;
-    status: string;
+    price: number;
+    event_name: string;
   } | null;
 }
 
@@ -55,8 +55,8 @@ const OrderContent = ({ data }: Props) => {
             </li>
           </ul>
         </div>
-        <div className={styles.price}>{data.price}</div>
-        <div className={styles.status}>{data.status}</div>
+        <div className={styles.price}>{centsToUSD(data.price)}</div>
+        <div className={styles.status}>{data.event_name}</div>
       </div>
     </div>
   );

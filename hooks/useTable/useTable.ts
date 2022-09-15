@@ -7,6 +7,8 @@ const useTable = ({ columns, data, setProps }: TableProps) => {
 
   const getTableBodyProps = () => ({ ...setProps?.getTableBodyProps });
 
+  const getTableHeadProps = () => ({ ...setProps?.getTableHeadProps });
+
   const prepareRow = (row: any) => {};
 
   const headerGroups = [
@@ -37,7 +39,7 @@ const useTable = ({ columns, data, setProps }: TableProps) => {
         render: (type: string) => value,
         getCellContentProps: () => ({
           className: css([
-            columns[cellIndex % (columns.length - 1)]?.cell?.className,
+            columns[cellIndex % (columns.length - 1)]?.cell?.className!,
           ]),
         }),
         getCellProps: () => ({
@@ -53,6 +55,7 @@ const useTable = ({ columns, data, setProps }: TableProps) => {
   return {
     getTableProps,
     getTableBodyProps,
+    getTableHeadProps,
     headerGroups,
     rows,
     prepareRow,

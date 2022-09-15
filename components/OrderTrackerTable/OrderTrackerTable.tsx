@@ -1,40 +1,44 @@
 import { Table, Drawer, OrderContent } from "@/components";
-import { OrderType } from "@/interfaces/*";
-import { useMemo, useState } from "react";
-import { centsToUSD } from "utils";
-import { getTimeDifference } from "utils/time";
+import { OrderType } from "@/interfaces";
+import { memo, useMemo, useState } from "react";
+import { centsToUSD, getTimeDifference } from "utils";
 import styles from "./orderTrackerTable.module.scss";
 
 interface Props {
   data?: OrderType[];
-  onRowClick?: Function;
 }
 
+let renders = 0;
 const OrderTrackerTable = ({ data = [] }: Props) => {
+  console.log("render order table ", ++renders);
   const [drawerData, setDrawerData]: [OrderType | null, Function] =
     useState(null);
 
-  useMemo(() => data, [data]);
+  const tableProps = useMemo(
+    () => ({
+      getTableProps: { className: styles.table },
+      getTableBodyProps: { className: styles.tableBody },
+      getHeaderGroupProps: { className: styles.headerGroup },
+      getTableHeadProps: { className: styles.tableHead },
+      getHeaderProps: { className: styles.header },
+      getRowProps: {
+        className: styles.row,
+        onClick: (rowData: OrderType) => {
+          console.log("clicked");
+          const order = data.find((d) => d.id === rowData.id);
+          setDrawerData(null);
 
-  const tableProps = {
-    getTableProps: { className: styles.table },
-    getTableBodyProps: { className: styles.tableBody },
-    getHeaderGroupProps: { className: styles.headerGroup },
-    getHeaderProps: { className: styles.header },
-    getRowProps: {
-      className: styles.row,
-      onClick: (rowData: OrderType) => {
-        setDrawerData(null);
-
-        setTimeout(() => {
-          setDrawerData(rowData);
-        }, 100);
+          setTimeout(() => {
+            setDrawerData(order);
+          }, 100);
+        },
       },
-    },
-    getCellProps: {
-      className: styles.cell,
-    },
-  };
+      getCellProps: {
+        className: styles.cell,
+      },
+    }),
+    []
+  );
 
   const columns = useMemo(
     () => [
@@ -45,14 +49,6 @@ const OrderTrackerTable = ({ data = [] }: Props) => {
       {
         Header: "ID",
         accessor: "id",
-      },
-      {
-        Header: "Customer",
-        accessor: "customer",
-      },
-      {
-        Header: "Destination",
-        accessor: "destination",
       },
       {
         Header: "Status",
@@ -77,26 +73,25 @@ const OrderTrackerTable = ({ data = [] }: Props) => {
     []
   );
 
-  const formatData = (data: OrderType[]) =>
-    data.map((d) => ({
+  const formatData = useMemo(() => {
+    return data.map((d) => ({
       key: d.index,
       id: d.id,
-      customer: d.customer,
-      destination: d.destination,
       status: d.event_name,
       item: d.item,
       price: centsToUSD(d.price),
       time: getTimeDifference(d.sent_at_second),
     }));
+  }, [data]);
 
   return (
     <>
       <Drawer isOpen={!!drawerData}>
         <OrderContent data={drawerData} />
       </Drawer>
-      <Table data={formatData(data)} columns={columns} setProps={tableProps} />
+      <Table data={formatData} columns={columns} setProps={tableProps} />
     </>
   );
 };
 
-export default OrderTrackerTable;
+export default memo(OrderTrackerTable);

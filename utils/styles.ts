@@ -1,2 +1,2 @@
 export const css = (string: Array<string>) =>
-  string.filter(() => true).join(" ");
+  string.filter((str) => str ?? true).join(" ");

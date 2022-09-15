@@ -6,7 +6,7 @@
 .sidebar {
   margin: 0;
   padding: 0;
-  width: 200px;
+  width: $sideNavWidth;
   position: fixed;
   height: 100%;
   overflow: auto;
@@ -17,7 +17,7 @@
   padding-left: 20px;
   padding-top: 20px;
   width: 700px;
-  background-color: white;
+  background-color: $white;
   position: fixed;
   right: 0;
   height: 100%;
@@ -27,6 +27,6 @@
 
 .content {
   width: 100%;
-  margin-left: 200px;
+  margin-left: $sideNavWidth;
   background-color: $light;
 }

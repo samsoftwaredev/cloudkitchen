@@ -1,13 +1,22 @@
 import useTable from "@/hooks/useTable";
 import { TableProps } from "interfaces";
+import { memo } from "react";
 
+let renders = 0;
 const Table = ({ columns, data, setProps }: TableProps) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data, setProps });
+  console.log("render table ", ++renders);
+  const {
+    getTableProps,
+    getTableBodyProps,
+    getTableHeadProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable({ columns, data, setProps });
 
   return (
     <table {...getTableProps()}>
-      <thead>
+      <thead {...getTableHeadProps()}>
         {headerGroups.map((headerGroup) => (
           <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
@@ -36,4 +45,4 @@ const Table = ({ columns, data, setProps }: TableProps) => {
   );
 };
 
-export default Table;
+export default memo(Table);

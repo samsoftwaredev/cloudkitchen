@@ -21,6 +21,8 @@ $primary: #612ab9;
 $secondary: #35187e;
 $success: #bbddcd;
 
+$sideNavWidth: 250px;
+
 :export {
   xs: $xs;
   xm: $sm;
@@ -41,4 +43,5 @@ $success: #bbddcd;
   primary: $primary;
   secondary: $secondary;
   success: $success;
+  sideNavWidth: $sideNavWidth;
 }
