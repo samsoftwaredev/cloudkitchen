@@ -10,6 +10,7 @@ import {
 import { OrderEventType, OrderType } from "@/interfaces";
 import { useSocket } from "@/hooks";
 import { addComma, centsToUSD } from "utils";
+import { NO_MATCH } from "@/constants/variables";
 
 let renders = 0;
 const App: NextPage = () => {
@@ -22,11 +23,11 @@ const App: NextPage = () => {
     const queryLC = query.toLowerCase();
     const noMatch = [
       {
-        customer: "No Match",
-        destination: "No Match",
-        event_name: "No Match",
-        id: "No Match",
-        item: "No Match",
+        customer: NO_MATCH,
+        destination: NO_MATCH,
+        event_name: NO_MATCH,
+        id: NO_MATCH,
+        item: NO_MATCH,
         price: 0,
         sent_at_second: 0,
       },
@@ -63,13 +64,23 @@ const App: NextPage = () => {
     setSearchData(newData);
   };
 
-  const findOrders = (eventType: OrderEventType) =>
-    addComma(data.filter(({ event_name }) => event_name === eventType).length);
+  const findOrders = (eventType: OrderEventType) => {
+    const dataToFilter = searchData || data;
+    return addComma(
+      dataToFilter.filter(({ event_name }) => event_name === eventType).length
+    );
+  };
+
+  const countTotal = () => {
+    const dataToFilter = searchData || data;
+    if (dataToFilter[0]?.id === NO_MATCH) return 0;
+    return addComma(dataToFilter.length);
+  };
 
   const stats = (
     <>
       <SearchSection onChange={updateTableFields} />
-      <Stats label={addComma(data.length)} description="Orders" />
+      <Stats label={countTotal()} description="Orders" />
       <Stats label={findOrders("CREATED")} description="Created" />
       <Stats label={findOrders("COOKED")} description="Cooked" />
       <Stats

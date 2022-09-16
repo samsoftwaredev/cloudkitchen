@@ -1,3 +1,4 @@
+import { NO_MATCH } from "../constants";
 import { OrderEventType } from "../interfaces";
 
 export const arraysAreTheSame = (arr1?: Array<any>, arr2?: Array<any>) =>
@@ -16,6 +17,6 @@ export const getOrderStatus = (status: OrderEventType) => {
     case "CANCELLED":
       return "Cancelled";
     default:
-      return "No Match";
+      return NO_MATCH;
   }
 };
