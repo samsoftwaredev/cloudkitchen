@@ -6,11 +6,14 @@
 .sidebar {
   margin: 0;
   padding: 0;
-  width: $sideNavWidth;
+  width: 0;
   background-color: $warning;
   height: 100%;
   position: fixed;
   overflow: auto;
+  @media (min-width: $desktop) {
+    width: $sideNavWidth;
+  }
 }
 
 .drawer {
@@ -28,6 +31,9 @@
 
 .content {
   width: 100%;
-  margin-left: $sideNavWidth;
+  margin-left: 0;
   background-color: $light;
+  @media (min-width: $desktop) {
+    margin-left: $sideNavWidth;
+  }
 }

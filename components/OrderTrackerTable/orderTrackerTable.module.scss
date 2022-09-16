@@ -10,7 +10,10 @@
 .tableHead {
   position: fixed;
   top: 0;
-  width: calc(100% - $sideNavWidth);
+  width: 100%;
+  @media (min-width: $desktop) {
+    width: calc(100% - $sideNavWidth);
+  }
 }
 
 .headerGroup {
@@ -36,9 +39,6 @@
   justify-content: space-around;
   transition: 0.3s;
   height: 80px;
-  // &:nth-child(even) {
-  //   background-color: rgba($color: #cbcbcb, $alpha: 0.2);
-  // }
   &:hover {
     background-color: rgba($color: $dark, $alpha: 0.2);
   }
@@ -46,7 +46,6 @@
 
 .cell {
   flex: 1;
-  // width: 200px;
 }
 
 .status {
