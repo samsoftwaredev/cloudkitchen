@@ -16,6 +16,6 @@ export const getOrderStatus = (status: OrderEventType) => {
     case "CANCELLED":
       return "Cancelled";
     default:
-      return "";
+      return "No Match";
   }
 };

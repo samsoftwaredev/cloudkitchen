@@ -7,6 +7,8 @@
   margin: 0;
   padding: 0;
   width: $sideNavWidth;
+  background-color: $warning;
+  height: 100%;
   position: fixed;
   overflow: auto;
 }

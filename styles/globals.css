@@ -24,20 +24,6 @@ a {
   border: none;
 }
 
-input[type=text].ckField {
-  width: 130px;
-  box-sizing: border-box;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  padding: 12px 20px 12px 40px;
-  transition: width 0.4s ease-in-out;
-}
-
-input[type=text]:focus.ckField {
-  width: 100%;
-}
-
 .btn {
   border-radius: 30px;
   border: none;

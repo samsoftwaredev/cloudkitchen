@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { OrderType } from "@/interfaces";
-import { centsToUSD, css, getTimeDifference } from "utils";
+import { centsToUSD, css, getOrderStatus, getTimeDifference } from "utils";
 import styles from "./orderContent.module.scss";
 
 const getAddress = (location: string = "") => {
@@ -32,9 +32,6 @@ const OrderContent = ({ data }: { data: OrderType | null }) => {
         marginWidth={0}
       />
       <div className={styles.information}>
-        <div className={css([styles.time, "text-muted"])}>
-          {getTimeDifference(data.sent_at_second)}
-        </div>
         <div className={css([styles.address, "text-muted"])}>
           {data.destination}
         </div>
@@ -48,7 +45,9 @@ const OrderContent = ({ data }: { data: OrderType | null }) => {
           </ul>
         </div>
         <div className={styles.price}>{centsToUSD(data.price)}</div>
-        <div className={styles.status}>{data.event_name}</div>
+        <div className={styles.status}>
+          {getOrderStatus(data.event_name).toUpperCase()}
+        </div>
         {data.orderHistory?.length! > 0 && (
           <div>
             <h4 className="text-muted">History:</h4>
@@ -56,13 +55,15 @@ const OrderContent = ({ data }: { data: OrderType | null }) => {
               {data.orderHistory!.map((d) => (
                 <li key={d.id}>
                   <div className={styles.item}>
-                    {getTimeDifference(d.sent_at_second)} | {d.event_name}
+                    {getTimeDifference(d.sent_at_second)} -
+                    {getOrderStatus(d.event_name).toUpperCase()}
                   </div>
                 </li>
               ))}
             </ul>
           </div>
         )}
+        <div className={css([styles.time, "text-muted"])}>ID: {data.id}</div>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { arraysAreTheSame } from "utils";
-import { OrderType, scrollDirection, ScrollPosition } from "@/interfaces";
+import { OrderType, ScrollPosition } from "@/interfaces";
 
 const pagination = {
   incrementBy: 1,
@@ -16,116 +16,45 @@ let prevOrderList: OrderType[];
 const usePagination = ({
   data,
   scrollPosition,
-  ordersContainer,
+  ordersElement,
 }: {
   data: OrderType[];
   scrollPosition: ScrollPosition;
-  ordersContainer: any;
+  ordersElement: any;
 }): OrderType[] => {
-  const calcHeight = (state: string, modifier = 0): number => {
-    const documentHeight = document.body.scrollHeight;
-    const currentScroll = window.scrollY + window.innerHeight;
+  const calcNumOfOrders = (): number => {
     const numOfOrdersOnTop = window.pageYOffset / pagination.cellHeight;
-    const numOfOrdersOnBottom =
-      (documentHeight - currentScroll) / pagination.cellHeight;
-
-    if (state === "top") {
-      return Math.floor(numOfOrdersOnTop - modifier);
-    } else {
-      return Math.floor(numOfOrdersOnBottom - modifier);
-    }
+    return Math.floor(numOfOrdersOnTop);
   };
 
-  const setHeight = (orders: OrderType[], direction: scrollDirection) => {
-    let numOfOrdersOnTop;
-    let numOfOrdersOnBottom;
+  const setHeight = (orders: OrderType[]) => {
+    const top = calcNumOfOrders();
+    let numOfOrdersOnTop = top;
 
-    const top = calcHeight("top");
-    const bottom = calcHeight("bottom");
+    pagination.startingPosition = top;
+    pagination.endingPosition = pagination.startingPosition + pagination.minGap;
 
-    if (direction === "up") {
-      // padding
-      numOfOrdersOnTop = top - 1 <= 0 ? 0 : top - 1;
-      numOfOrdersOnBottom = bottom + 1;
-      // array
-      pagination.startingPosition = numOfOrdersOnTop;
-      pagination.endingPosition =
-        pagination.endingPosition - pagination.startingPosition >
-        pagination.minGap
-          ? pagination.endingPosition - 1
-          : pagination.endingPosition;
-    } else {
-      // padding
-      numOfOrdersOnTop = top + 1;
-      numOfOrdersOnBottom = bottom - 1;
-      // array
-      pagination.startingPosition = top + 1;
-      pagination.endingPosition =
-        pagination.endingPosition - pagination.startingPosition >=
-        pagination.maxGap
-          ? pagination.endingPosition
-          : pagination.endingPosition + 1;
-    }
-
-    ordersContainer.current.style.paddingTop =
+    // padding top
+    ordersElement.current.style.paddingTop =
       numOfOrdersOnTop * pagination.cellHeight + "px";
-    ordersContainer.current.style.paddingBottom =
-      numOfOrdersOnBottom * pagination.cellHeight + "px";
-
-    console.log(
-      ">>>>",
-      "\n numOfOrdersOnTop: ",
-      numOfOrdersOnTop,
-      "\n numOfOrdersOnBottom: ",
-      numOfOrdersOnBottom,
-      "\n startingPosition: ",
-      pagination.startingPosition,
-      "\n endingPosition: ",
-      pagination.endingPosition,
-      "\n gap: ",
-      pagination.endingPosition - pagination.startingPosition
-    );
-
-    return orders.slice(pagination.startingPosition, pagination.endingPosition);
-  };
-
-  const setBottomHeight = (orders: OrderType[], modifier = 0) => {
-    const height =
-      calcHeight("top") >= pagination.minGap
-        ? calcHeight("top")
-        : pagination.startingPosition;
-
-    pagination.endingPosition =
-      pagination.endingPosition + pagination.incrementBy;
-
-    pagination.startingPosition = height;
-
-    ordersContainer.current.style.paddingTop =
-      height * pagination.cellHeight + modifier + "px";
 
     return orders.slice(pagination.startingPosition, pagination.endingPosition);
   };
 
   const viewPortData = useMemo(() => {
-    let newOrderList = data.slice(
-      pagination.startingPosition,
-      pagination.endingPosition
-    );
+    let newOrderList: OrderType[] = [
+      ...data.slice(0, pagination.endingPosition),
+    ];
 
-    if (ordersContainer.current) {
+    if (ordersElement.current && data.length >= pagination.minGap) {
       switch (scrollPosition.state) {
         case "top":
+          // if the user is at the beginning/top of the page
           newOrderList = data.slice(0, pagination.minGap);
-          ordersContainer.current.style.paddingTop = "0";
-          break;
-        case "middle":
-          newOrderList = setHeight(data, scrollPosition.direction);
-          break;
-        case "bottom":
-          newOrderList = setBottomHeight(data);
+          ordersElement.current.style.paddingTop = "0";
           break;
         default:
-          console.error("no matching case");
+          newOrderList = setHeight(data);
       }
     }
 

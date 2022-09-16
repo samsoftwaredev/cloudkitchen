@@ -43,6 +43,10 @@ const OrderTrackerTable = ({ data = [] }: Props) => {
   const columns = useMemo(
     () => [
       {
+        Header: "#",
+        accessor: "index",
+      },
+      {
         Header: "ID",
         accessor: "id",
       },
@@ -71,8 +75,9 @@ const OrderTrackerTable = ({ data = [] }: Props) => {
 
   const formatData = useMemo(() => {
     return data.map((d) => ({
+      index: d.index,
       id: d.id,
-      status: getOrderStatus(d.event_name),
+      status: getOrderStatus(d.event_name).toUpperCase(),
       item: d.item,
       price: centsToUSD(d.price),
       time: getTimeDifference(d.sent_at_second),

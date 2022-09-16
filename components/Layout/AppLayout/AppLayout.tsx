@@ -13,7 +13,7 @@ const AppLayout = ({ children, navContent }: Props) => {
     <div className={styles.container}>
       <div className={styles.sidebar}>
         <Navbar type={NAV_TYPE.APP} />
-        <div>{navContent}</div>
+        {navContent}
       </div>
       <div className={styles.content}>{children}</div>
     </div>

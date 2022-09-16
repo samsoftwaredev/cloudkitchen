@@ -9,6 +9,7 @@ export { default as SearchSection } from "./SearchSection";
 export { default as Drawer } from "./Drawer";
 export { default as OrderContent } from "./OrderContent";
 export { default as Order } from "./Order";
+export { default as SearchOrder } from "./SearchOrder";
 export * from "./Table";
 export * from "./Section";
 export * from "./Layout";

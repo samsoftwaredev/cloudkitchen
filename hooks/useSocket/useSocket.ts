@@ -21,9 +21,8 @@ const useSocket = (debounceWaitSec = 5000, url = BACKEND_URL) => {
     };
 
     const setNewData = (newData: OrderType[]) => {
-      let groupById: { [key: string]: OrderType } = {};
-
       setData((prevData: OrderType[]) => {
+        let groupById: { [key: string]: OrderType } = {};
         prevData.forEach((d) => {
           groupById[d.id] = d;
         });
@@ -39,10 +38,9 @@ const useSocket = (debounceWaitSec = 5000, url = BACKEND_URL) => {
 
         const arr = Object.values(groupById);
 
-        const sorted = (a: OrderType, b: OrderType) =>
-          a.sent_at_second - b.sent_at_second;
+        const sorted = (a: OrderType, b: OrderType) => a.index! - b.index!;
 
-        return arr.sort(sorted);
+        return arr.map((d, index) => ({ ...d, index: ++index })).sort(sorted);
       });
     };
 

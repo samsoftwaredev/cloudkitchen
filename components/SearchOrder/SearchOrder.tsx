@@ -1,14 +1,15 @@
 import { OrderTrackerTable } from "@/components";
 import { OrderType, ScrollPosition } from "@/interfaces";
-import styles from "./order.module.scss";
+import styles from "./searchOrder.module.scss";
 import { memo, useRef } from "react";
 import { useScrollPosition, usePagination } from "@/hooks";
+
 interface Props {
   orders: OrderType[];
 }
 
 let renders = 0;
-const Order = ({ orders = [] }: Props) => {
+const SearchOrder = ({ orders = [] }: Props) => {
   console.log("render order ", ++renders);
   const scrollPosition: ScrollPosition = useScrollPosition();
   const ordersContainer = useRef(null);
@@ -25,4 +26,4 @@ const Order = ({ orders = [] }: Props) => {
   );
 };
 
-export default memo(Order);
+export default memo(SearchOrder);

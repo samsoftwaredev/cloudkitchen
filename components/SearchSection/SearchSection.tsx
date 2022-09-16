@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { memo, useState } from "react";
+import { css } from "utils";
+import debounce from "utils/debounce";
 import styles from "./search.module.scss";
 
 interface Props {
@@ -8,21 +10,22 @@ interface Props {
 const SearchSection = ({ onChange }: Props) => {
   const [searchText, setSearchText] = useState("");
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     const text = event.target.value;
     setSearchText(text);
-    onChange(text);
+    debounce(onChange(text));
   };
 
   return (
     <input
-      className="ckField"
+      className={css([styles.searchBox])}
       type="text"
-      placeholder="Search"
+      // TODO: remove specific filter
+      placeholder="Search By Price"
       value={searchText}
       onChange={handleChange}
     />
   );
 };
 
-export default SearchSection;
+export default memo(SearchSection);
