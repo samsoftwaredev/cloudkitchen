@@ -4,15 +4,20 @@ import { centsToUSD, css, getOrderStatus, getTimeDifference } from "utils";
 import styles from "./orderContent.module.scss";
 
 const getAddress = (location: string = "") => {
-  let address = location.split(",")[0];
-  const addressLowerCase = address.toLowerCase();
+  const address = location.split(",");
+
+  let street = address[0];
+  const city = address[1];
+  const state = address[2].slice(1, 3);
+  const addressLowerCase = street.toLowerCase();
 
   if (addressLowerCase.includes("apt")) {
-    address = address.slice(0, addressLowerCase.lastIndexOf("apt"));
+    street = street.slice(0, addressLowerCase.lastIndexOf("apt"));
   } else if (addressLowerCase.includes("suite")) {
-    address = address.slice(0, addressLowerCase.lastIndexOf("suite"));
+    street = street.slice(0, addressLowerCase.lastIndexOf("suite"));
   }
-  return encodeURI(address);
+  const fullAddress = `${street},${city},${state}`;
+  return encodeURI(fullAddress);
 };
 
 const OrderContent = ({ data }: { data: OrderType | null }) => {
