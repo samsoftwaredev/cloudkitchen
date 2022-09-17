@@ -7,11 +7,17 @@ I wrote this code as part of a coding challenge.
 Create a `.env.local` file with the following variables
 
 ```
-  NEXT_PUBLIC_BACKEND_URL=http://localhost:4000
-  NEXT_PUBLIC_NODE_ENV=development
+NEXT_PUBLIC_BACKEND_URL=http://localhost:4000
+NEXT_PUBLIC_NODE_ENV=development
 ```
 
-First, run the development server:
+First, install dependencies
+
+```
+npm install
+```
+
+Second, run the development server:
 
 ```bash
 npm run dev
