@@ -16,7 +16,7 @@ let renders = 0;
 const App: NextPage = () => {
   console.log("************** render app **************", ++renders);
   const data: OrderType[] = useSocket(3000);
-  const [searchData, setSearchData] = useState();
+  const [searchData, setSearchData] = useState(undefined);
 
   const updateTableFields = (query: string) => {
     let newData: OrderType[];
