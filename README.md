@@ -4,10 +4,12 @@ I wrote this code as part of a coding challenge.
 
 ## Getting Started
 
-Create a .env.local file with the following variables
+Create a `.env.local` file with the following variables
 
-- NEXT_PUBLIC_BACKEND_URL=http://localhost:4000
-- NEXT_PUBLIC_NODE_ENV=development
+```
+  NEXT_PUBLIC_BACKEND_URL=http://localhost:4000
+  NEXT_PUBLIC_NODE_ENV=development
+```
 
 First, run the development server:
 
