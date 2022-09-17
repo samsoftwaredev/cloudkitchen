@@ -1,8 +1,8 @@
-export default function debounce(func, time) {
-  var time = time || 100; // 100 by default if no param
-  var timer;
-  return function (event) {
+export default function debounce(func: Function, time = 100) {
+  var time = time;
+  var timer: number;
+  return function (event: any) {
     if (timer) clearTimeout(timer);
-    timer = setTimeout(func, time, event);
+    timer = window.setTimeout(func, time, event);
   };
 }
