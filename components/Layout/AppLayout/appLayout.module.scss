@@ -11,6 +11,8 @@
   height: 100%;
   position: fixed;
   overflow: auto;
+  transition: 0.3s;
+  z-index: 1500;
   @media (min-width: $desktop) {
     width: $sideNavWidth;
   }
@@ -20,7 +22,6 @@
   margin: 0;
   padding-left: 20px;
   padding-top: 20px;
-  width: 700px;
   background-color: $white;
   position: fixed;
   right: 0;
@@ -35,5 +36,25 @@
   background-color: $light;
   @media (min-width: $desktop) {
     margin-left: $sideNavWidth;
+  }
+}
+
+.btnMenu {
+  position: fixed;
+  top: 50%;
+  transform: translate(0, -50%);
+  z-index: 2000;
+  height: 40px;
+  width: 40px;
+  background-color: rgba($color: $danger, $alpha: 0.5);
+  color: $light;
+  font-weight: 900;
+  transition: 0.3s;
+  margin-left: 10px;
+  @media (min-width: $desktop) {
+    display: none;
+  }
+  &:hover {
+    background-color: $danger;
   }
 }

@@ -37,11 +37,10 @@ const useScrollPosition = () => {
   useEffect(() => {
     //add eventlistener to window
     // using debounce so it doesn't execute every time
-    const func = debounce(() => onScroll(), 100);
-    window.addEventListener("scroll", func);
+    window.addEventListener("scroll", debounce(onScroll, 1500));
     // remove event on unmount to prevent a memory leak with the cleanup
     return () => {
-      window.removeEventListener("scroll", func);
+      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 

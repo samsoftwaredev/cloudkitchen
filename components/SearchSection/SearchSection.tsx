@@ -1,6 +1,5 @@
 import { memo, useState } from "react";
 import { css } from "utils";
-import debounce from "utils/debounce";
 import styles from "./search.module.scss";
 
 interface Props {
@@ -13,7 +12,7 @@ const SearchSection = ({ onChange }: Props) => {
   const handleChange = (event: any) => {
     const text = event.target.value;
     setSearchText(text);
-    debounce(onChange(text));
+    onChange(text);
   };
 
   return (

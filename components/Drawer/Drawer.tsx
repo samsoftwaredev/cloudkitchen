@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { Close } from "@mui/icons-material";
 import styles from "./drawer.module.scss";
 import { css } from "utils";
+import { useResize } from "@/hooks";
 
 interface Props {
   children: ReactNode;
@@ -10,11 +11,17 @@ interface Props {
   onClose?: Function;
 }
 
-const drawerSize = (isOpen: Boolean) => (isOpen ? "0px" : "-505px");
+let openDrawer = "0px";
+let closeDrawer = "-505px";
 
 const Drawer = ({ children, isOpen = false, onClose }: Props) => {
-  const drawerRef = useRef();
+  const drawerRef = useRef(null);
   const [open, setOpen] = useState(isOpen);
+  const widowWidth = useResize();
+
+  console.log("widowWidth: ", widowWidth);
+
+  const drawerSize = (isOpen: Boolean) => (isOpen ? openDrawer : closeDrawer);
 
   const toggleHandler = () => {
     const toggleBoolean = !open;
@@ -27,10 +34,15 @@ const Drawer = ({ children, isOpen = false, onClose }: Props) => {
 
   useEffect(() => {
     if (drawerRef.current) {
+      if (widowWidth && widowWidth <= 600 && isOpen) {
+        drawerRef.current.style.width = "100%";
+      } else {
+        drawerRef.current.style.width = "500px";
+      }
       drawerRef.current.style.right = drawerSize(isOpen);
       setOpen(isOpen);
     }
-  }, [isOpen]);
+  }, [isOpen, widowWidth]);
 
   return (
     <div ref={drawerRef} className={styles.container}>
