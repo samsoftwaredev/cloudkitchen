@@ -11,7 +11,7 @@ const useResize = () => {
     };
 
     return () => {
-      window.addEventListener("resize", debounce(resizeListener, 1000));
+      window.addEventListener("resize", debounce(resizeListener, 500));
     };
   }, []);
 
