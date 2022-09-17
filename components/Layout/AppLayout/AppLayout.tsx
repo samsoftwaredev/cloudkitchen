@@ -11,13 +11,12 @@ interface Props {
 }
 
 const AppLayout = ({ children, navContent }: Props) => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen]: [Boolean, Function] = useState(false);
   const widowWidth = useResize();
   const menuBtn = useRef(null);
   const menuNav = useRef(null);
 
-  const toggleMenu = () => {
-    const currentState = !menuOpen;
+  const toggleMenu = (currentState: Boolean) => {
     setMenuOpen(currentState);
     if (currentState === true) {
       menuBtn.current.style.marginLeft = "250px";
@@ -28,11 +27,13 @@ const AppLayout = ({ children, navContent }: Props) => {
     }
   };
 
+  const onChange = () => {
+    const currentState = !menuOpen;
+    toggleMenu(currentState);
+  };
+
   useEffect(() => {
-    if (widowWidth && widowWidth >= 600) {
-      menuBtn.current.style.marginLeft = "250px";
-      menuNav.current.style.width = "250px";
-    }
+    if (widowWidth && widowWidth >= 600) toggleMenu(true);
   }, [widowWidth]);
 
   return (
@@ -40,7 +41,7 @@ const AppLayout = ({ children, navContent }: Props) => {
       <button
         ref={menuBtn}
         className={css([styles.btnMenu, "btn"])}
-        onClick={toggleMenu}
+        onClick={onChange}
       >
         {menuOpen ? "<" : ">"}
       </button>
