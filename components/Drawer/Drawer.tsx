@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ReactNode } from "react";
 import { Close } from "@mui/icons-material";
 import styles from "./drawer.module.scss";
-import { css } from "utils";
+import { css } from "@/utils";
 import { useResize } from "@/hooks";
 
 interface Props {
@@ -15,11 +15,9 @@ let openDrawer = "0px";
 let closeDrawer = "-505px";
 
 const Drawer = ({ children, isOpen = false, onClose }: Props) => {
-  const drawerRef = useRef(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(isOpen);
   const widowWidth = useResize();
-
-  console.log("widowWidth: ", widowWidth);
 
   const drawerSize = (isOpen: Boolean) => (isOpen ? openDrawer : closeDrawer);
 

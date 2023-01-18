@@ -1,5 +1,5 @@
 import { TableProps } from "interfaces";
-import { css, generateUID, clickable } from "utils";
+import { css, generateUID, clickable } from "@/utils";
 
 const useTable = ({ columns, data, setProps }: TableProps) => {
   const getTableProps = () => ({ ...setProps?.getTableProps });

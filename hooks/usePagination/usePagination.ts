@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { arraysAreTheSame } from "utils";
+import { arraysAreTheSame } from "@/utils";
 import { OrderType, ScrollPosition } from "@/interfaces";
 
 const pagination = {

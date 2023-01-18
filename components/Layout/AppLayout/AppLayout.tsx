@@ -2,7 +2,7 @@ import { Navbar } from "@/components";
 import { NAV_TYPE } from "@/constants/variables";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import styles from "./appLayout.module.scss";
-import { css } from "utils";
+import { css } from "@/utils";
 import useResize from "@/hooks/useResize";
 
 interface Props {
@@ -13,17 +13,19 @@ interface Props {
 const AppLayout = ({ children, navContent }: Props) => {
   const [menuOpen, setMenuOpen]: [Boolean, Function] = useState(false);
   const widowWidth = useResize();
-  const menuBtn = useRef(null);
-  const menuNav = useRef(null);
+  const menuBtn = useRef<HTMLButtonElement>(null);
+  const menuNav = useRef<HTMLDivElement>(null);
 
   const toggleMenu = (currentState: Boolean) => {
     setMenuOpen(currentState);
-    if (currentState === true) {
-      menuBtn.current.style.marginLeft = "250px";
-      menuNav.current.style.width = "250px";
-    } else {
-      menuBtn.current.style.marginLeft = "10px";
-      menuNav.current.style.width = "0px";
+    if (menuBtn.current && menuNav.current) {
+      if (currentState === true) {
+        menuBtn.current.style.marginLeft = "250px";
+        menuNav.current.style.width = "250px";
+      } else {
+        menuBtn.current.style.marginLeft = "10px";
+        menuNav.current.style.width = "0px";
+      }
     }
   };
 

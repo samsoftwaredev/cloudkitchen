@@ -1,5 +1,5 @@
 import { memo, useState } from "react";
-import { css } from "utils";
+import { css } from "@/utils";
 import styles from "./search.module.scss";
 
 interface Props {

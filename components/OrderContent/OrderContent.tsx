@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { OrderType } from "@/interfaces";
-import { centsToUSD, css, getOrderStatus, getTimeDifference } from "utils";
+import { centsToUSD, css, getOrderStatus, getTimeDifference } from "@/utils";
 import styles from "./orderContent.module.scss";
 
 const getAddress = (location: string = "") => {

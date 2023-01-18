@@ -28,8 +28,10 @@
       "@/interfaces": ["interfaces/index"],
       "@/styles/*": ["styles/*"],
       "@/styles": ["styles/index"],
+      "@/utils/*": ["utils/*"],
+      "@/utils": ["utils/index"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/*", "hooks/*", "constants/*"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules",  ".vscode"]
 }

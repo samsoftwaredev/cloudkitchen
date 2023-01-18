@@ -1,9 +1,8 @@
 import { ReactNode } from "react";
-import styles from "./sectionContent.module.scss";
 
 interface Props {
   children: ReactNode;
-  className: String;
+  className: string;
 }
 
 const SectionContent = ({ className, children }: Props) => {

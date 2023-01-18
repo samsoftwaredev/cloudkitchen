@@ -9,14 +9,16 @@ import {
 } from "@/components";
 import { OrderEventType, OrderType } from "@/interfaces";
 import { useSocket } from "@/hooks";
-import { addComma, centsToUSD } from "utils";
+import { addComma, centsToUSD } from "@/utils";
 import { NO_MATCH } from "@/constants/variables";
 
 let renders = 0;
 const App: NextPage = () => {
   console.log("************** render app **************", ++renders);
   const data: OrderType[] = useSocket(3000);
-  const [searchData, setSearchData] = useState([]);
+  const [searchData, setSearchData]: [Array<OrderType>, Function] = useState(
+    []
+  );
 
   const updateTableFields = (query: string): void => {
     let newData = [];

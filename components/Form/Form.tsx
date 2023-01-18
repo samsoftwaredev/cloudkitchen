@@ -1,17 +1,15 @@
-import { Meta, MainNavbar, Footer } from "@/components";
+import { Meta, Footer } from "@/components";
 import { NavType } from "interfaces";
 import { ReactNode } from "react";
 
 interface Props {
   children?: ReactNode;
-  navType?: NavType;
 }
 
-const MainLayout = ({ children, navType }: Props) => {
+const MainLayout = ({ children }: Props) => {
   return (
     <div>
       <Meta />
-      <MainNavbar type={navType} />
       {children}
       <Footer />
     </div>

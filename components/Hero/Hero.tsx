@@ -2,7 +2,7 @@ import styles from "./hero.module.scss";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import { useScroll } from "@/hooks";
-import { css } from "utils";
+import { css } from "@/utils";
 
 interface Props {
   title: string;

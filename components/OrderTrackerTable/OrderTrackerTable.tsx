@@ -1,7 +1,7 @@
 import { Table, Drawer, OrderContent } from "@/components";
 import { OrderType } from "@/interfaces";
 import { memo, useMemo, useState } from "react";
-import { centsToUSD, getOrderStatus, getTimeDifference } from "utils";
+import { centsToUSD, getOrderStatus, getTimeDifference } from "@/utils";
 import styles from "./orderTrackerTable.module.scss";
 
 interface Props {

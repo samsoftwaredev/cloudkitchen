@@ -1,12 +1,13 @@
 {
-  "name": "garden",
-  "version": "0.1.0",
+  "name": "couldkitties",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "export": "next export"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
@@ -23,7 +24,6 @@
     "@types/node": "18.0.0",
     "@types/react": "18.0.14",
     "@types/react-dom": "18.0.5",
-    "@welldone-software/why-did-you-render": "^7.0.1",
     "eslint": "8.18.0",
     "eslint-config-next": "12.2.0",
     "sass": "^1.53.0",
