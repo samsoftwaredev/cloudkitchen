@@ -29,4 +29,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Live Website
 
-https://cloudkitchen-challenge.netlify.app/
+https://cloudkitchen-frontend.netlify.app/
